@@ -4,11 +4,15 @@ import { useState } from "react";
 
 function SignUp() {
   const [success, setSuccess] = useState(false);
-
+  const [error, setError] = useState('')
   const submitHandler = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
+
+    // reset state values 
+    setSuccess(false);
+    setError('')
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((res) => {
@@ -16,7 +20,7 @@ function SignUp() {
         setSuccess(true);
       })
       .catch((error) => {
-        console.error("ERROR:", error.message);
+        setError(error.message)
       });
   };
 
@@ -81,6 +85,13 @@ function SignUp() {
           Registration Successful!
         </p>
       )}
+    {
+      error && (
+        <p className="text-center text-red-500 mt-4">
+          {error}
+        </p>
+      )
+    }
     </div>
   );
 }
